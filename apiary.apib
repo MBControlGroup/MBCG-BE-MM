@@ -1,0 +1,176 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# MessageManagement
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+## Manage BM Message [/BMmanage]
+
+### Get all BM Message [POST /BMmanage/getAllMes]
+
++ Request (application/json)
+
+    + Headers
+            
+            Cookies: token="abcd"
+            
+    + Body 
+    
+            {
+                "pc": 2,
+                "pn": 1
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Code":200,
+                "Enmsg":"ok",
+                "Cnmsg":"成功",
+                "Data": {
+                    "Count_page": 1,
+                    "Count_data": 2,
+                    "Data": [
+                        {
+                            "Bm_id":0,
+                            "Title":"yanlian",
+                            "Detail":"yanlian",
+                            "Bm_type":"GT",
+                            "Send_method" : ["wechat_notice" , "sms_notice"],
+                            "Send_time": 1111
+                        },{
+                            "Bm_id":1,
+                            "Title":"yanlian",
+                            "Detail":"yanlian",
+                            "Bm_type":"GT",
+                            "Send_method" : ["wechat_notice" , "sms_notice", "voice_notice"],
+                            "Send_time": 1112
+                        }
+                    ]
+                }
+            }
+
+### Create a New BM Message [POST /BMmanage/createMes]
+
++ Request (application/json)
+
+    + Headers
+            
+            Cookies: token="abcd"
+            
+    + Body
+    
+            {
+                "title":"yanlian",
+                "detail":"yanlian",
+                "bm_type":"GT",
+                "wechat_notice":true,
+                "sms_notice":true,
+                "voice_notice":true,
+                "office_id":2,
+                "org_id":1
+            }
+            
++ Response 200 (application/json)
+
+    + Headers
+        
+            Set-Cookie: token="abcd"
+
+    + Body
+    
+            {
+                "Code":200,
+                "Enmsg":"ok",
+                "Cnmsg":"成功",
+                "Data": {
+                    "Bm_id":1,
+                    "Title":"yanlian",
+                    "Detail":"yanlian",
+                    "Bm_type":"GT",
+                    "Send_method" : ["wechat_notice" , "sms_notice", "voice_notice"],
+                    "Send_time": 1112
+                }
+            }
+
+
+
+### Get BM Message Detail [POST /BMmanage/{bm_id}]
+
++ Request (application/json)
+
+    + Headers
+            
+            Cookies: token="abcd"
+            
+    + Body
+    
+            {
+                "pc": 3,
+                "pn": 1
+            }
+            
++ Response 200 (application/json)
+
+    + Headers
+        
+            Set-Cookie: token="abcd"
+
+    + Body
+    
+            {
+                "Code":200,
+                "Enmsg":"ok",
+                "Cnmsg":"成功",
+                "Data": {
+                    "Count_page": 1,
+                    "Count_data": 3,
+                    "Data":{
+                        "Bm_id":1,
+                        "Title":"yanlian",
+                        "Detail":"yanlian",
+                        "Bm_type":"GT",
+                        "Send_method" : ["wechat_notice" , "sms_notice", "voice_notice"],
+                        "Send_time": 1112
+                    },
+                    "Soldiers":[
+                        {
+                            "Soldier_id":1,
+                            "Rank":"CM",
+                            "Id_num":"hhh",
+                            "Name":"zhang3",
+                            "Phone_num":"123",
+                            "Wechat_openid":"233",
+                            "Commander_id":233,
+                            "Serve_office_id":233,
+                            "Im_user_id":123,
+                            "Rec_content":null
+                        }, {
+                            "Soldier_id":2,
+                            "Rank":"CM",
+                            "Id_num":"hhh",
+                            "Name":"zhang3",
+                            "Phone_num":"123",
+                            "Wechat_openid":"233",
+                            "Commander_id":233,
+                            "Serve_office_id":233,
+                            "Im_user_id":123,
+                            "Rec_content":"meximexi"
+                        }, {
+                            "Soldier_id":3,
+                            "Rank":"CM",
+                            "Id_num":"hhh",
+                            "Name":"zhang3",
+                            "Phone_num":"123",
+                            "Wechat_openid":"233",
+                            "Commander_id":233,
+                            "Serve_office_id":233,
+                            "Im_user_id":123,
+                            "Rec_content":"meximexi"
+                        }
+                    ]
+                }
+            }
