@@ -5,16 +5,16 @@ import (
 )
 
 type ResSoldiersData struct {
-    Soldier_id      int   
-    Rank            string
-    Id_num          string
-    Name            string
-    Phone_num       string
-    Wechat_openid   string
-    Commander_id    int
-    Serve_office_id int
-    Im_user_id      int
-    Rec_content     string
+    Soldier_id      int `json:"soldier_id"`
+    Rank            string `json:"rank"`
+    Id_num          string `json:"id_num"`
+    Name            string `json:"name"`
+    Phone_num       string `json:"phone_num"`
+    Wechat_openid   string `json:"wechat_openid"`
+    Commander_id    int `json:"commander_id"`
+    Serve_office_id int `json:"serve_office_id"`
+    Im_user_id      int `json:"im_user_id"`
+    Rec_content     string `json:"rec_content"`
 }
 
 type OrgSoldierRelationships struct {
@@ -38,12 +38,12 @@ type SendBMData struct {
 }
 
 type ResBMData struct {
-    Bm_id       int
-    Title       string
-    Detail      string
-    Bm_type     string
-    Send_method []string
-    Send_time   *time.Time
+    Bm_id       int `json:"bm_id"`
+    Title       string `json:"title"`
+    Detail      string `json:"detail"`
+    Bm_type     string `json:"bm_type"`
+    Send_method []string `json:"send_method"`
+    Send_time   *time.Time `json:"send_time"`
 }   
 
 func NewResBMData(value BroadcastMessages) *ResBMData {

@@ -2,7 +2,7 @@ package main
 
 import (
     "os"
-    "github.com/MBControlGroup/MBCG_BE_MM/service"
+    "github.com/MBControlGroup/MBCG-BE-MM/service"
     flag "github.com/spf13/pflag"
 )
 

@@ -6,8 +6,8 @@ import (
     "net/http"
     "strconv"
     "fmt"
-    "github.com/MBControlGroup/MBCG_BE_MM/entities"
-    "github.com/MBControlGroup/MBCG_BE_MM/token"
+    "github.com/MBControlGroup/MBCG-BE-MM/entities"
+    "github.com/MBControlGroup/MBCG-BE-MM/token"
     "github.com/unrolled/render"
     //"github.com/dgrijalva/jwt-go/request"
     //"github.com/dgrijalva/jwt-go"
@@ -18,14 +18,14 @@ func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
 	    }
 
 	    user_id, err := token.Valid(cookie.Value)
 
 	    if err != nil {
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
         }
 
@@ -38,7 +38,7 @@ func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
         checkErr(err)
 
         if page_info.Page_data_count == -1 || page_info.Page_num == -1 {
-            formatter.JSON(w, 400, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{400, "fail", "失败", nil})
+            formatter.JSON(w, 400, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{400, "fail", "失败", nil})
 	        return;
         }
  
@@ -61,15 +61,15 @@ func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
         }
 
         formatter.JSON(w, http.StatusOK, struct{ 
-            Code int;
-            Enmsg string;
-            Cnmsg string; 
-            Data struct{Count_page int; Count_data int; Data []entities.ResBMData}
+            Code int `json:"code"`;
+            Enmsg string `json:"enmsg"`;
+            Cnmsg string `json:"cnmsg"`; 
+            Data struct{Count_page int `json:"count_page"`; Count_data int `json:"count_data"`; Data []entities.ResBMData `json:"data"`} `json:"data"`
             }{
             200, 
             "ok", 
             "成功", 
-            struct{Count_page int; Count_data int; Data []entities.ResBMData}{count_page, count_data, ret}})
+            struct{Count_page int `json:"count_page"`; Count_data int `json:"count_data"`; Data []entities.ResBMData `json:"data"`}{count_page, count_data, ret}})
             
     }
 }
@@ -80,14 +80,14 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
 	    }
 
 	    user_id, err := token.Valid(cookie.Value)
 
 	    if err != nil {
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
         }
 
@@ -106,7 +106,7 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
             checkErr(err)
 
             if(!entities.MMService.ValidOfficeId(msg_office_id)) {
-                formatter.JSON(w, 400, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{400, "fail", "失败", nil})
+                formatter.JSON(w, 400, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{400, "fail", "失败", nil})
 	            return;
             }
 
@@ -137,7 +137,7 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
             checkErr(err)
 
             if(!entities.MMService.ValidOrgId(msg_org_id)) {
-                formatter.JSON(w, 400, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{400, "fail", "失败", nil})
+                formatter.JSON(w, 400, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{400, "fail", "失败", nil})
 	            return;
             }
 
@@ -164,10 +164,10 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
         resBMData := entities.NewResBMData(*bm)
 
         formatter.JSON(w, http.StatusOK, struct{ 
-            Code int;
-            Enmsg string;
-            Cnmsg string; 
-            Data entities.ResBMData
+            Code int `json:"code"`;
+            Enmsg string `json:"enmsg"`;
+            Cnmsg string `json:"cnmsg"`; 
+            Data entities.ResBMData `json:"data"`
             }{
             200, "ok", "成功", *resBMData})
         
@@ -179,14 +179,14 @@ func getBMHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
 	    }
 
 	    user_id, err := token.Valid(cookie.Value)
 
 	    if err != nil {
-	        formatter.JSON(w, 302, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{302, "fail", "失败", nil})
+	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
 	        return;
         }
 
@@ -199,7 +199,7 @@ func getBMHandler(formatter *render.Render) http.HandlerFunc {
         checkErr(err)
 
         if page_info.Page_data_count == -1 || page_info.Page_num == -1 {
-            formatter.JSON(w, 400, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{400, "fail", "失败", nil})
+            formatter.JSON(w, 400, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{400, "fail", "失败", nil})
 	        return;
         }
 
@@ -208,7 +208,7 @@ func getBMHandler(formatter *render.Render) http.HandlerFunc {
 
         BM := entities.MMService.GetBMById(bm_id)
         if BM == nil {
-            formatter.JSON(w, 400, struct{ Code int;Enmsg string;Cnmsg string; Data interface{}}{400, "fail", "失败", nil})
+            formatter.JSON(w, 400, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{400, "fail", "失败", nil})
 	        return;
         }
 
@@ -232,13 +232,13 @@ func getBMHandler(formatter *render.Render) http.HandlerFunc {
         }
 
         formatter.JSON(w, http.StatusOK, struct{ 
-            Code int;
-            Enmsg string;
-            Cnmsg string; 
-            Data struct{Count_page int; Count_data int; Data entities.ResBMData; Soldiers []entities.ResSoldiersData}
+            Code int `json:"code"`;
+            Enmsg string `json:"enmsg"`;
+            Cnmsg string `json:"cnmsg"`; 
+            Data struct{Count_page int `json:"count_page"`; Count_data int `json:"count_data"`; Data entities.ResBMData `json:"data"`; Soldiers []entities.ResSoldiersData `json:"soldiers"`} `json:"data"`
             }{
             200, "ok", "成功", 
-            struct{Count_page int; Count_data int; Data entities.ResBMData; Soldiers []entities.ResSoldiersData}{
+            struct{Count_page int `json:"count_page"`; Count_data int `json:"count_data"`; Data entities.ResBMData `json:"data"`; Soldiers []entities.ResSoldiersData `json:"soldiers"`}{
             count_page, count_data, *resBMData, ret}})
     }
 }
