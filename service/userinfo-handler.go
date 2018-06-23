@@ -1,6 +1,8 @@
 package service
 
 import (
+	"io/ioutil"
+	"strings"
 	"encoding/json"
 	"github.com/gorilla/mux"
     "net/http"
@@ -74,7 +76,56 @@ func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     }
 }
 
+func sendShortMessage(sendBMData entities.SendBMData, soldiers []entities.Soldiers) {
+    client := &http.Client{}
+    var var4 entities.Vars4Template
+    var4.TemplateNum = sendBMData.TemplateNum
+    var4.Var1 = sendBMData.Var1
+    var4.Var2 = sendBMData.Var2
+    var4.Var3 = sendBMData.Var3
+    var4.Var4 = sendBMData.Var4
+    for _, soldiers := range soldiers {
+        var4.Num = soldiers.Phone_num
+        myJson, err := json.Marshal(var4)
+        checkErr(err)
+        request, err := http.NewRequest("POST", "http://127.0.0.1:9400/sendInterfaceTemplateSms",strings.NewReader(string(myJson)))
+        checkErr(err)
+        defer request.Body.Close()
 
+        response, err := client.Do(request)
+        checkErr(err)
+        defer response.Body.Close()
+
+        body, err := ioutil.ReadAll(response.Body)
+
+        fmt.Println(string(body))
+        checkErr(err)
+    }
+    
+}
+
+func sendWebcall(soldiers []entities.Soldiers) {
+    client := &http.Client{}
+    var webcall entities.WebCallInfo
+    for _, soldiers := range soldiers {
+        webcall.Exten = soldiers.Phone_num
+
+        myJson, err := json.Marshal(webcall)
+        checkErr(err)
+        request, err := http.NewRequest("POST", "http://127.0.0.1:9400/webCall",strings.NewReader(string(myJson)))
+        checkErr(err)
+        defer request.Body.Close()
+
+        response, err := client.Do(request)
+        checkErr(err)
+        defer response.Body.Close()
+
+        body, err := ioutil.ReadAll(response.Body)
+
+        fmt.Println(string(body))
+        checkErr(err)
+    }
+}
 
 func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
@@ -101,6 +152,8 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
         bm := entities.MMService.AddBM(&sendBMData)
 
         req.ParseForm()
+
+        var office_soldiers []entities.Soldiers
         if len(req.Form["office_id"]) != 0 {
             msg_office_id, err := strconv.Atoi(req.Form["office_id"][0])
             checkErr(err)
@@ -115,7 +168,6 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
             bmo.Msg_office_id = msg_office_id
             entities.MMService.AddBMO(&bmo)
 
-            var office_soldiers []entities.Soldiers
             office_id, err := strconv.Atoi(req.Form["office_id"][0])
             checkErr(err)
             office_soldiers = entities.MMService.GetSoldierByOfficeId(office_id)
@@ -130,6 +182,8 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
                 cnr.Cn_id = cn.Cn_id
                 entities.MMService.AddCNR(&cnr)
             }
+            sendShortMessage(sendBMData, office_soldiers)
+            sendWebcall(office_soldiers)
         }
 
         if len(req.Form["org_id"]) != 0 {
@@ -147,10 +201,21 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
             entities.MMService.AddBMOrg(&bmorg)
 
             var org_soldiers []entities.Soldiers
+
             org_id, err := strconv.Atoi(req.Form["org_id"][0])
             checkErr(err)
             org_soldiers = entities.MMService.GetSoldierByOrgId(org_id)
             for _, soldier := range org_soldiers {
+                find := false
+                for _, soldierAdded := range office_soldiers {
+                    if soldier.Soldier_id == soldierAdded.Soldier_id {
+                        find = true
+                        break
+                    }
+                }
+                if find {
+                    continue
+                }
                 var cn entities.CommonNotifications
                 cn.Cn_bm_id = bm.Bm_id
                 cn.Recv_soldier_id = soldier.Soldier_id
@@ -159,6 +224,8 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
                 cnr.Cn_id = cn.Cn_id
                 entities.MMService.AddCNR(&cnr)
             }
+            sendShortMessage(sendBMData, org_soldiers)
+            sendWebcall(org_soldiers)
         }
         
         resBMData := entities.NewResBMData(*bm)

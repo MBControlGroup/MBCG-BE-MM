@@ -4,6 +4,24 @@ import (
     "time"
 )
 
+type WebCallInfo struct{
+    Action      string `json:"Action"`
+    ServiceNo   string `json:"ServiceNo"`
+    Exten       string `json:"Exten"`
+    WebCallType string `json:"WebCallType"`
+    CallBackUrl string `json:"CallBackUrl"`
+    Variable    string `json:"Variable"`
+}
+
+type Vars4Template struct {
+    Num         string `json:"num"`
+    TemplateNum string `json:"templateNum"`
+    Var1        string `json:"var1"`
+    Var2        string `json:"var2"`
+    Var3        string `json:"var3"`
+    Var4        string `json:"var4"`
+}
+
 type ResSoldiersData struct {
     Soldier_id      int `json:"soldier_id"`
     Rank            string `json:"rank"`
@@ -35,6 +53,13 @@ type SendBMData struct {
     Wechat_notice   bool `json:"wechat_notice"`
     Sms_notice      bool `json:"sms_notice"`
     Voice_notice    bool `json:"voice_notice"`
+    TemplateNum string  `json:"num"`
+    Var1        string  `json:"var1"`
+    Var2        string  `json:"var2"`
+    Var3        string  `json:"var3"`
+    Var4        string  `json:"var4"`
+    Office_id   int     `json:"office_id"`
+    Org_id      int     `json:"org_id"`
 }
 
 type ResBMData struct {
