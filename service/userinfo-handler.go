@@ -186,8 +186,8 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
                 cnr.Cn_id = cn.Cn_id
                 entities.MMService.AddCNR(&cnr)
             }
-            sendShortMessage(sendBMData, office_soldiers)
-            sendWebcall(office_soldiers)
+            if sendBMData.Sms_notice {sendShortMessage(sendBMData, office_soldiers)}
+            if sendBMData.Voice_notice {sendWebcall(office_soldiers)}
         }
 
         if len(req.Form["org_id"]) != 0 {
@@ -228,8 +228,8 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
                 cnr.Cn_id = cn.Cn_id
                 entities.MMService.AddCNR(&cnr)
             }
-            sendShortMessage(sendBMData, org_soldiers)
-            sendWebcall(org_soldiers)
+            if sendBMData.Sms_notice {sendShortMessage(sendBMData, org_soldiers)}
+            if sendBMData.Voice_notice {sendWebcall(org_soldiers)}
         }
         
         resBMData := entities.NewResBMData(*bm)
