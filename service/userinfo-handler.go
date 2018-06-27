@@ -16,6 +16,13 @@ import (
 
 )
 
+func preOptionHandler(formatter *render.Render) http.HandlerFunc {
+    return func(w http.ResponseWriter, req *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*") 
+        formatter.JSON(w, http.StatusOK, "")
+    }
+}
+
 func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*") 

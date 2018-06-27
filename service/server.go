@@ -25,10 +25,13 @@ func NewServer() *negroni.Negroni {
 }
 
 func initRoutes(mx *mux.Router, formatter *render.Render) {
-    mx.HandleFunc("/hello/{id}", testHandler(formatter)).Methods("GET")
+    //mx.HandleFunc("/hello/{id}", testHandler(formatter)).Methods("GET")
     mx.HandleFunc("/BMmanage/getAllMes", getAllBMsHandler(formatter)).Methods("POST")
     mx.HandleFunc("/BMmanage/createMes", sendBMsHandler(formatter)).Methods("POST")
     mx.HandleFunc("/BMmanage/{bm_id}", getBMHandler(formatter)).Methods("POST")
+    mx.HandleFunc("/BMmanage/getAllMes", preOptionHandler(formatter)).Methods("OPTIONS")
+    mx.HandleFunc("/BMmanage/createMes", preOptionHandler(formatter)).Methods("OPTIONS")
+    mx.HandleFunc("/BMmanage/{bm_id}", preOptionHandler(formatter)).Methods("OPTIONS")
     //mx.HandleFunc("/service/userinfo", getUserInfoHandler(formatter))
 
 }
