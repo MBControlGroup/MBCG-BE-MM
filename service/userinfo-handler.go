@@ -18,7 +18,9 @@ import (
 
 func preOptionHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*") 
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
         formatter.JSON(w, http.StatusOK, "")
     }
 }
@@ -26,7 +28,9 @@ func preOptionHandler(formatter *render.Render) http.HandlerFunc {
 func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*") 
-
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
 	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
@@ -139,7 +143,9 @@ func sendWebcall(soldiers []entities.Soldiers) {
 func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*") 
-
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
 	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
@@ -256,7 +262,9 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
 func getBMHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*") 
-        
+        w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
 	        formatter.JSON(w, 302, struct{ Code int `json:"code"`;Enmsg string `json:"enmsg"`;Cnmsg string `json:"cnmsg"`; Data interface{} `json:"data"`}{302, "fail", "失败", nil})
