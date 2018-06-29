@@ -19,7 +19,7 @@ import (
 func preOptionHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+	    w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
         w.Header().Set("Access-Control-Allow-Credentials", "true") 
         formatter.JSON(w, http.StatusOK, "")
@@ -29,7 +29,7 @@ func preOptionHandler(formatter *render.Render) http.HandlerFunc {
 func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+	    w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
         w.Header().Set("Access-Control-Allow-Credentials", "true")  
 	    
@@ -103,7 +103,7 @@ func sendShortMessage(sendBMData entities.SendBMData, soldiers []entities.Soldie
         var4.Num = soldiers.Phone_num
         myJson, err := json.Marshal(var4)
         checkErr(err)
-        request, err := http.NewRequest("POST", "http://127.0.0.1:9400/sendInterfaceTemplateSms",strings.NewReader(string(myJson)))
+        request, err := http.NewRequest("POST", "http://222.200.180.59:9400/sendInterfaceTemplateSms",strings.NewReader(string(myJson)))
         checkErr(err)
         defer request.Body.Close()
 
@@ -127,7 +127,7 @@ func sendWebcall(soldiers []entities.Soldiers) {
 
         myJson, err := json.Marshal(webcall)
         checkErr(err)
-        request, err := http.NewRequest("POST", "http://127.0.0.1:9400/webCall",strings.NewReader(string(myJson)))
+        request, err := http.NewRequest("POST", "http://222.200.180.59:9400/webCall",strings.NewReader(string(myJson)))
         checkErr(err)
         defer request.Body.Close()
 
@@ -145,7 +145,7 @@ func sendWebcall(soldiers []entities.Soldiers) {
 func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+	    w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
         w.Header().Set("Access-Control-Allow-Credentials", "true") 
 	    
@@ -265,7 +265,7 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
 func getBMHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+	    w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
         w.Header().Set("Access-Control-Allow-Credentials", "true") 
 	    
