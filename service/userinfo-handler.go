@@ -18,18 +18,20 @@ import (
 
 func preOptionHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Credentials", "true") 
         formatter.JSON(w, http.StatusOK, "")
     }
 }
 
 func getAllBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*") 
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Credentials", "true")  
 	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
@@ -142,9 +144,10 @@ func sendWebcall(soldiers []entities.Soldiers) {
 
 func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*") 
-	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Credentials", "true") 
 	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
@@ -261,9 +264,10 @@ func sendBMsHandler(formatter *render.Render) http.HandlerFunc {
 
 func getBMHandler(formatter *render.Render) http.HandlerFunc {
     return func(w http.ResponseWriter, req *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*") 
-        w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Credentials")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE") 
+        w.Header().Set("Access-Control-Allow-Credentials", "true") 
 	    
         cookie, err := req.Cookie("token")
 	    if err != nil || cookie.Value == ""{
